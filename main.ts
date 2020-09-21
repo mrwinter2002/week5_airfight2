@@ -9,16 +9,39 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
         . . . . . . . . . . . . . . . . 
         . . . . . . . . . . . . . . . . 
         . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . 1 1 1 . . . . . . . . . 
-        . . 1 1 5 5 f . . . . . . . . . 
-        . . 1 5 5 c f c 1 c 1 c b b b f 
-        . . 1 1 5 5 f . . . . . . . . . 
-        . . . 1 1 1 1 . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
+        f f f f f f f f f f f f f f f f 
+        f f f 1 1 1 f f f f f f f f f f 
+        f 1 1 5 5 a f f f f f f f f f f 
+        f 1 5 5 c a c 1 c 1 c b b b a f 
+        f 1 1 5 5 a f f f f f f f f f f 
+        f f 1 1 1 1 f f f f f f f f f f 
+        f f f f f f f f f f f f f f f f 
         `, Me, 250, 0)
     projectile.setFlag(SpriteFlag.AutoDestroy, true)
 })
+function Create_Enemny_Airplanes () {
+    enemy1 = sprites.createProjectileFromSide(img`
+        . . . . . . . . . . . . 6 6 . . 
+        . . . . . . . . . . . 6 6 f 5 . 
+        . . . . . . . . . . 6 6 6 f 2 5 
+        . . . . . . . . . 6 6 6 6 f 5 5 
+        . . . . . 1 1 1 6 6 6 6 6 9 . . 
+        . . . 1 1 1 1 1 6 6 6 6 6 9 . . 
+        9 9 1 1 1 1 1 1 6 6 6 6 6 f 5 . 
+        6 8 6 6 6 6 6 6 6 6 6 6 8 f 2 5 
+        . 8 6 6 6 6 6 6 6 6 6 8 8 f 5 5 
+        . . 8 6 6 6 6 6 6 6 8 8 . . . . 
+        . . 8 6 6 6 6 6 6 8 8 . . . . . 
+        . . . 8 8 6 6 6 8 8 8 . . . . . 
+        . . . . . 8 8 8 8 . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        `, -75, 0)
+    enemy1.y = randint(20, 100)
+    enemy1.setKind(SpriteKind.Enemy)
+    enemy1.setFlag(SpriteFlag.AutoDestroy, true)
+}
 sprites.onOverlap(SpriteKind.Projectile, SpriteKind.Enemy, function (sprite, otherSprite) {
     otherSprite.destroy()
     projectile.destroy()
@@ -51,25 +74,5 @@ Me.setPosition(10, 42)
 controller.moveSprite(Me)
 Me.z = 100
 game.onUpdateInterval(700, function () {
-    enemy1 = sprites.createProjectileFromSide(img`
-        . . . . . . . . . . . . 6 6 . . 
-        . . . . . . . . . . . 6 6 f 5 . 
-        . . . . . . . . . . 6 6 6 f 2 5 
-        . . . . . . . . . 6 6 6 6 f 5 5 
-        . . . . . 1 1 1 6 6 6 6 6 9 . . 
-        . . . 1 1 1 1 1 6 6 6 6 6 9 . . 
-        9 9 1 1 1 1 1 1 6 6 6 6 6 f 5 . 
-        6 8 6 6 6 6 6 6 6 6 6 6 8 f 2 5 
-        . 8 6 6 6 6 6 6 6 6 6 8 8 f 5 5 
-        . . 8 6 6 6 6 6 6 6 8 8 . . . . 
-        . . 8 6 6 6 6 6 6 8 8 . . . . . 
-        . . . 8 8 6 6 6 8 8 8 . . . . . 
-        . . . . . 8 8 8 8 . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        `, -75, 0)
-    enemy1.y = randint(20, 100)
-    enemy1.setFlag(SpriteFlag.AutoDestroy, true)
-    enemy1.setKind(SpriteKind.Enemy)
+    Create_Enemny_Airplanes()
 })
