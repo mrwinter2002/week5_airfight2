@@ -1,3 +1,6 @@
+namespace SpriteKind {
+    export const enemy_fire = SpriteKind.create()
+}
 controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
     projectile = sprites.createProjectileFromSprite(img`
         . . . . . . . . . . . . . . . . 
@@ -42,6 +45,13 @@ function Create_Enemny_Airplanes () {
     enemy1.setKind(SpriteKind.Enemy)
     enemy1.setFlag(SpriteFlag.AutoDestroy, true)
 }
+sprites.onOverlap(SpriteKind.Player, SpriteKind.enemy_fire, function (sprite, otherSprite) {
+    pause(200)
+    info.changeLifeBy(-1)
+})
+info.onLifeZero(function () {
+    game.over(false, effects.splatter)
+})
 sprites.onOverlap(SpriteKind.Projectile, SpriteKind.Enemy, function (sprite, otherSprite) {
     otherSprite.destroy()
     projectile.destroy()
@@ -49,6 +59,7 @@ sprites.onOverlap(SpriteKind.Projectile, SpriteKind.Enemy, function (sprite, oth
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSprite) {
     game.over(false, effects.splatter)
 })
+let projectile2: Sprite = null
 let enemy1: Sprite = null
 let projectile: Sprite = null
 let Me: Sprite = null
@@ -71,8 +82,32 @@ Me = sprites.create(img`
     ....................
     `, SpriteKind.Player)
 Me.setPosition(10, 42)
-controller.moveSprite(Me)
+controller.moveSprite(Me, 0, 100)
 Me.z = 100
+info.setLife(3)
 game.onUpdateInterval(700, function () {
     Create_Enemny_Airplanes()
+})
+game.onUpdateInterval(2000, function () {
+    if (enemy1.x < 190) {
+        projectile2 = sprites.createProjectileFromSprite(img`
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            1 1 . . . . . . . . . . . . . . 
+            1 3 3 3 3 3 3 3 3 3 3 3 3 . . . 
+            1 3 3 3 3 3 3 3 3 3 3 3 3 . . . 
+            1 3 3 3 3 3 3 3 3 3 3 3 3 . . . 
+            1 1 . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            `, enemy1, -200, 0)
+        projectile2.setKind(SpriteKind.enemy_fire)
+    }
 })
